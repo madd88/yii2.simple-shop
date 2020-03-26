@@ -1,19 +1,16 @@
 <?php
-/* @var $productList */
+/* @var $countries */
 /* @var $pagination */
 
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
-
-
-$this->title = 'Main Page'
 ?>
     <h1>Countries</h1>
     <ul>
-        <?php foreach ($productList as $product): ?>
+        <?php foreach ($countries as $country): ?>
             <li>
-                <?= Html::encode("{$product->title} ({$product->title})") ?>:
-                <?= $product->title ?>
+                <?= Html::encode("{$country->code} ({$country->name})") ?>:
+                <?= $country->population ?>
             </li>
         <?php endforeach; ?>
     </ul>

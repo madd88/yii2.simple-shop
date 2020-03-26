@@ -3,15 +3,24 @@
 namespace app\controllers;
 
 use Yii;
+use yii\db\Exception;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Shop\Products;
+use app\models\Shop\Categories;
+use yii\data\Pagination;
 
 class SiteController extends Controller
 {
+    public static $a = 1;
+
+    private const CATEGORIES_PREFIX = '/products/';
+
     /**
      * {@inheritdoc}
      */
@@ -61,7 +70,52 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $list = Products::find();
+
+        $pagination = new Pagination([
+            'defaultPageSize' => 2,
+            'totalCount' => $list->count(),
+        ]);
+
+        $productList = $list->orderBy('title')
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return $this->render('index', ['pagination' => $pagination, 'productList' => $productList]);
+    }
+
+    /**
+     * @param null $parent
+     * @param array $menuItems
+     * @return array
+     */
+
+    public static function getMenu($parent = null, $menuItems = []){
+        $Categories = Categories::find();
+            $count = $Categories
+                ->where(['parent_id'=> $parent])
+                ->count();
+
+            $list = $Categories
+                ->where(['parent_id'=> $parent])
+                ->all();
+
+        if (0 === $count) {
+            return $menuItems;
+        } else {
+            foreach ($list as $category) {
+                $menuItems[] =
+                    [
+                        'label' => $category->title,
+                        'url'   => self::CATEGORIES_PREFIX . $category->url,
+                        'items' => self::getMenu($category->id)
+                    ];
+
+            }
+        }
+
+        return $menuItems;
     }
 
     /**
@@ -124,5 +178,26 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionSay($message = 'Ку Ку')
+    {
+        return $this->render('say', ['message' => $message]);
+    }
+
+    public function actionEntry()
+    {
+        $model = new EntryForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            // данные в $model удачно проверены
+
+            // делаем что-то полезное с $model ...
+
+            return $this->render('entry-confirm', ['model' => $model]);
+        } else {
+            // либо страница отображается первый раз, либо есть ошибка в данных
+            return $this->render('entry', ['model' => $model]);
+        }
     }
 }

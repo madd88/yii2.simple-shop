@@ -43,14 +43,14 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                 'products/<categoryTitle:\D{0,}>' => 'Shop/products/get-products-list',
+                 'product/<productUrl:\D{0,}>' => 'Shop/products/get-product-info'
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
