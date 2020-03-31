@@ -1,34 +1,33 @@
 <?php
-/* @var $productList */
+/* @var $categoryList */
 
-/* @var $pagination */
-/* @var $message */
 use yii\helpers\Html;
 use yii\bootstrap4\LinkPager;
-?>
 
-<?php $this->title = "Товары";
-if (! empty($message)) {
-    echo '<h1>' . $message . '</h1>';
-}
-?>
-   <div class="row">
-        <?php foreach ($productList as $product): ?>
 
-            <div class="col-lg-4 col-md-6 mb-2">
+$this->title = 'Main Page'
+?>
+    <h1></h1>
+    <div class="row">
+
+        <?php foreach ($categoryList as $category): ?>
+
+            <div class="col-lg-3 col-md-6 mb-2">
                 <div class="card h-100">
                     <!-- Изображение -->
-                    <img class="card-img-top product-img"
-                         src="<?= $product->img ?>"
+                    <img class="card-img-top category-img"
+                         src="<?=$category->icon?>"
                          alt="..."
-                         width="140"
                     />
                     <!-- Текстовый контент -->
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">
-                            <a href="/product/<?= $product->id; ?>"><?= $product->name ?></a>
+                            <?php if (true === $category->isFinal) : ?>
+                                <a href="/products/<?= $category->id; ?>"><?= $category->name ?></a>
+                            <?php else : ?>
+                                <a href="/categories/<?= $category->id; ?>"><?= $category->name ?></a>
+                            <?php endif; ?>
                         </h5>
-                        <h6><?= $product->price; ?></h6>
                         <p class="card-text">Описание</p>
                         <a href="#" class="btn btn-primary btn-success mt-auto">В корзину</a>
                     </div>
@@ -43,4 +42,3 @@ if (! empty($message)) {
     </div>
 
 
-<?= LinkPager::widget(['pagination' => $pagination]) ?>

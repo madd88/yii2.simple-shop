@@ -29,6 +29,7 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -68,15 +69,16 @@ AppAsset::register($this);
     <div class="container">
         <div class="row">
             <div class="col-md-3">
+                <?php
 
-                <?= Menu::widget([
 
-
-                    'items' =>
-                        \app\controllers\SiteController::getMenu(),
+                echo Menu::widget([
+                    'options' => ['class' => ''],
+                    'encodeLabels' => false,
                     'activateParents' => true,
-                ]); ?>
-
+                    'items' => \app\controllers\SiteController::getMenu(1),
+                ]);
+                ?>
             </div>
             <div class="col-md-9">
                 <?= Breadcrumbs::widget([
@@ -85,20 +87,19 @@ AppAsset::register($this);
                 <?= Alert::widget() ?>
                 <?= $content ?>
             </div>
-
         </div>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
-<?php $this->endBody() ?>
+            <p class="pull-right"><?= Yii::powered() ?></p>
+        </div>
+    </footer>
+
+    <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>

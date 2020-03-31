@@ -2,6 +2,7 @@
 
 namespace app\controllers\Shop;
 
+use app\models\Shop\ProductsOptions;
 use yii\web\Controller;
 use yii\data\Pagination;
 use app\models\Shop\Categories;
@@ -14,21 +15,28 @@ class ProductsController extends Controller
 
     }
 
-    public function actionGetProductsList($categoryTitle = '') {
-
-        $categoryId = Categories::find()
-            ->where(['url' => $categoryTitle])
-            ->one();
+    public function actionGetProductsList($categoryId) {
 
         $query = Products::find();
 
         $pagination = new Pagination([
-            'defaultPageSize' => 5,
-            'totalCount' => $query->where(['id_categories' => $categoryId->id])->count(),
+            'defaultPageSize' => 20,
+            'totalCount' => $query->where(['category_id' => $categoryId])->count(),
         ]);
 
-        $products = $query->orderBy('title')
-            ->where(['id_categories' => $categoryId->id])
+        $productsCount = $query
+            ->where(['category_id' => $categoryId])
+            ->count();
+
+
+        if (0 === (int) $productsCount) {
+            $message = 'Товары не найдены';
+        } else {
+            $message = '';
+        }
+
+        $products = $query->orderBy('price')
+            ->where(['category_id' => $categoryId])
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
@@ -36,18 +44,22 @@ class ProductsController extends Controller
         return $this->render('list', [
             'productList' => $products,
             'pagination' => $pagination,
+            'message' => $message
         ]);
     }
 
-    public function actionGetProductInfo($productUrl = '') {
+    public function actionGetProductInfo($productId = '') {
 
         $query = Products::find();
         $productInfo = $query
-            ->where(['url' => $productUrl])
+            ->where(['id' => $productId])
             ->one();
+
+        $Product_Options = ProductsOptions::getProductOptions($productId);
 
         return $this->render('info', [
             'productInfo' => $productInfo,
+            'productOptions' => $Product_Options
         ]);
     }
 

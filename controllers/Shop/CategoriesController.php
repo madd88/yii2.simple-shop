@@ -2,34 +2,34 @@
 
 namespace app\controllers\Shop;
 
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\data\Pagination;
 use app\models\Shop\Categories;
+use app\models\Shop\Products;
 
 class CategoriesController extends Controller
 {
-    public function actionIndex()
+
+    public function actionGetChildrenList($id)
     {
-        $query = Country::find();
+        $category = Categories::find()
+            ->where(['id' => $id])
+            ->one();
 
-        $pagination = new Pagination([
-            'defaultPageSize' => 5,
-            'totalCount' => $query->count(),
-        ]);
+        if (true === $category->isFinal) {
+            throw new Exception("ololo", 0001);
+        }
 
-        $countries = $query->orderBy('name')
-            ->offset($pagination->offset)
-            ->limit($pagination->limit)
+        $Categories = Categories::find()
+            ->where(['parent_id' => $category->id])
+            ->orderBy('name')
             ->all();
 
-        return $this->render('index', [
-            'countries' => $countries,
-            'pagination' => $pagination,
+
+        return $this->render('list', [
+            'categoryList' => $Categories,
         ]);
     }
 
-    public function getMenuList($parent = null, $MenuItems = [])
-    {
-
-    }
 }

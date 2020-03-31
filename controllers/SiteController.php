@@ -19,7 +19,8 @@ class SiteController extends Controller
 {
     public static $a = 1;
 
-    private const CATEGORIES_PREFIX = '/products/';
+    private const CATEGORIES_PREFIX = '/categories/';
+    private const PRODUCTS_PREFIX = '/products/';
 
     /**
      * {@inheritdoc}
@@ -77,7 +78,7 @@ class SiteController extends Controller
             'totalCount' => $list->count(),
         ]);
 
-        $productList = $list->orderBy('title')
+        $productList = $list->orderBy('price')
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
@@ -91,7 +92,14 @@ class SiteController extends Controller
      * @return array
      */
 
-    public static function getMenu($parent = null, $menuItems = []){
+    public static function getMenu($depth = 1, $currentDepth = 1, $parent = null, $menuItems = []){
+
+        if ($depth < $currentDepth) {
+            return null;
+        } else {
+            $currentDepth++;
+        }
+
         $Categories = Categories::find();
             $count = $Categories
                 ->where(['parent_id'=> $parent])
@@ -107,9 +115,9 @@ class SiteController extends Controller
             foreach ($list as $category) {
                 $menuItems[] =
                     [
-                        'label' => $category->title,
-                        'url'   => self::CATEGORIES_PREFIX . $category->url,
-                        'items' => self::getMenu($category->id)
+                        'label' => $category->name,
+                        'url'   => $category->isFinal ? self::PRODUCTS_PREFIX . $category->id : self::CATEGORIES_PREFIX . $category->id ,
+                        'items' => self::getMenu($depth, $currentDepth, $category->id)
                     ];
 
             }

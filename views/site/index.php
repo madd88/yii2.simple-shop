@@ -12,8 +12,8 @@ $this->title = 'Main Page'
     <ul>
         <?php foreach ($productList as $product): ?>
             <li>
-                <?= Html::encode("{$product->title} ({$product->title})") ?>:
-                <?= $product->title ?>
+                <?= Html::encode("{$product->name}") ?>:
+                <?= $product->name ?>
             </li>
         <?php endforeach; ?>
     </ul>

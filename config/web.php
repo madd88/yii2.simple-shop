@@ -47,8 +47,9 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                 'products/<categoryTitle:\D{0,}>' => 'Shop/products/get-products-list',
-                 'product/<productUrl:\D{0,}>' => 'Shop/products/get-product-info'
+                 'products/<categoryId:\d{0,}>' => 'Shop/products/get-products-list',
+                 'categories/<id:\d{0,}>' => 'Shop/categories/get-children-list',
+                 'product/<productId:\d{0,}>' => 'Shop/products/get-product-info'
             ],
         ],
     ],
