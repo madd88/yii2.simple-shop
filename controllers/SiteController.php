@@ -208,4 +208,8 @@ class SiteController extends Controller
             return $this->render('entry', ['model' => $model]);
         }
     }
+
+    public function actionGetFlash($key) {
+        return json_encode(['type'=>$key, 'message' =>\Yii::$app->session->getFlash($key)]);
+    }
 }

@@ -113,3 +113,21 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.product-img {
+    margin: 10px auto;
+    width: 65% !important;
+}
+
+.nav .dropdown:hover > .dropdown-menu {
+    display: block;
+    left:40% ;
+}
+
+.products-options{
+    padding: 10px;
+
+}
+.products-options>.row:nth-child(odd) {
+    background-color: #F5F5F5;
+    padding: 5px 0;
+}

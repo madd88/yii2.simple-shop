@@ -5,12 +5,13 @@
 
 /* @var $content string */
 
-use app\widgets\Alert;
 use yii\helpers\Html;
+
 use yii\bootstrap4\ {
     Nav,
     NavBar,
     Breadcrumbs,
+    Alert
 };
 use yii\widgets\ {
     Menu
@@ -32,6 +33,7 @@ AppAsset::register($this);
 
 </head>
 <body>
+<div id="notifies"></div>
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -44,11 +46,17 @@ AppAsset::register($this);
         ],
     ]);
     echo Nav::widget([
+        'encodeLabels' => false,
         'options' => ['class' => 'navbar-nav ml-auto'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+            [
+                'label' => '',
+                'url' => ['/cart/index'],
+                'linkOptions' => ['class' => 'top-cart']
+            ],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -70,8 +78,6 @@ AppAsset::register($this);
         <div class="row">
             <div class="col-md-3">
                 <?php
-
-
                 echo Menu::widget([
                     'options' => ['class' => ''],
                     'encodeLabels' => false,
@@ -84,7 +90,7 @@ AppAsset::register($this);
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]) ?>
-                <?= Alert::widget() ?>
+
                 <?= $content ?>
             </div>
         </div>
@@ -98,7 +104,6 @@ AppAsset::register($this);
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
-
     <?php $this->endBody() ?>
 </body>
 </html>

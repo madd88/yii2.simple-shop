@@ -49,7 +49,12 @@ $config = [
             'rules' => [
                  'products/<categoryId:\d{0,}>' => 'Shop/products/get-products-list',
                  'categories/<id:\d{0,}>' => 'Shop/categories/get-children-list',
-                 'product/<productId:\d{0,}>' => 'Shop/products/get-product-info'
+                 'product/<productId:\d{0,}>' => 'Shop/products/get-product-info',
+                 'cart/add' => 'Shop/cart/add',
+                 'cart/index' => 'Shop/cart/index',
+                 'site/get-flash/<key:\D{0,}>' => 'site/get-flash',
+                 '<controller:\D{0,}>/<action:\D{0,}>' => 'Shop/<controller>/<action>',
+
             ],
         ],
     ],
