@@ -68,6 +68,7 @@ class Cart extends Model {
         $cart = \Yii::$app->session->get('cart');
         if (null !== $productId) {
             unset($cart['products'][$productId]);
+            $cart['amount'] = $this->calculateCartCost($cart);
             \Yii::$app->session->set('cart', $cart);
             \Yii::$app->session->setFlash('warning', 'Товар удален');
             return 'warning';
@@ -101,7 +102,34 @@ class Cart extends Model {
     public function getCartCost() {
         $cart = \Yii::$app->session->get('cart');
 
-        return number_format($cart['amount'], 2);
+        return number_format($cart['amount'], 2, ".", " ");
+    }
+
+    /**
+     * Пересчет количества товара
+     *
+     * @param $data
+     * @return bool
+     */
+    public function recountCart($data) {
+
+        $session = \Yii::$app->session;
+        $cart = $session['cart'];
+        $data['count'] = ($data['count'] < 1) ? 1 : $data['count'];
+        $cart['products'][$data['productId']]['count'] = $data['count'];
+        $cart['amount'] = $this->calculateCartCost($cart);
+        $session->set('cart', $cart);
+
+        return true;
+    }
+
+    public function calculateCartCost($cart) {
+        $amount = 0;
+        foreach ($cart['products'] as $item) {
+            $amount = $amount + $item['price'] * $item['count'];
+        }
+
+        return $amount;
     }
 
 

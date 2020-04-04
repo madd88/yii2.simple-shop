@@ -30,7 +30,7 @@ if (! empty($message)) {
                         </h5>
                         <h6><?= $product->price; ?></h6>
                         <p class="card-text">Описание</p>
-                        <a href="#" class="btn btn-primary btn-success mt-auto">В корзину</a>
+                        <a href="#" class="add-to-cart btn btn-primary btn-success mt-auto" data-product-id="<?= $product->id; ?>">В корзину</a>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>

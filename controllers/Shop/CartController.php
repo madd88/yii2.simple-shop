@@ -11,9 +11,12 @@ use yii\web\Response;
 class CartController extends Controller {
 
     public function actionIndex() {
-        $products = (new Cart)->getProducts();
+        $Cart = new Cart();
+        $products = $Cart->getProducts();
+        $amount = $Cart->getCartCost();
+        $count = $Cart->getCartTotal();
         if (null !== $products) {
-            return $this->render('index', ['products' => $products]);
+            return $this->render('index', ['products' => $products, 'amount' => $amount, 'count' => $count]);
         }
     }
 
@@ -52,5 +55,13 @@ class CartController extends Controller {
         $data = \Yii::$app->request->post();
         return $Cart->removeFromCart($data['productId']);
     }
+
+    public function actionRecountCart(){
+        $Cart = new Cart();
+        $data = \Yii::$app->request->get();
+        return $Cart->recountCart($data);
+    }
+
+
 
 }
