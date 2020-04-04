@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\bootstrap4\LinkPager;
 
 
-$this->title = 'Main Page'
+$this->title = 'Каталог'
 ?>
     <h1></h1>
     <div class="row">

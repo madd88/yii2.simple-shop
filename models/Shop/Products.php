@@ -6,6 +6,10 @@ use yii\db\ActiveRecord;
 
 class Products extends Categories
 {
+
+    public const PRODUCTS_INFO_URL = 'product';
+
+
     public function getProductsList($categoryId = null, $limit = null)
     {
         $list = self::find()

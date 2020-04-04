@@ -11,12 +11,13 @@ use yii\bootstrap4\ {
     Nav,
     NavBar,
     Breadcrumbs,
-    Alert
+    Alert,
 };
 use yii\widgets\ {
     Menu
 };
 use app\assets\AppAsset;
+use app\widgets\ShopBreadCrumbs;
 
 AppAsset::register($this);
 ?>
@@ -87,8 +88,8 @@ AppAsset::register($this);
                 ?>
             </div>
             <div class="col-md-9">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                <?= ShopBreadCrumbs::widget([
+
                 ]) ?>
 
                 <?= $content ?>
