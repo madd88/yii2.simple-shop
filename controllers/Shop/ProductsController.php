@@ -1,19 +1,22 @@
 <?php
 
+/**
+ * Контроллер работы с товарами
+ *
+ * @package Shop
+ * @author Aleksei Nikolaev <madd.niko@gmail.com>
+ */
+
 namespace app\controllers\Shop;
 
-use app\models\Shop\ProductsOptions;
+use app\models\Shop\ {
+    Products,
+    ProductsOptions
+};
 use yii\web\Controller;
 use yii\data\Pagination;
-use app\models\Shop\Categories;
-use app\models\Shop\Products;
 
-class ProductsController extends Controller
-{
-    public function actionIndex($title = '')
-    {
-
-    }
+class ProductsController extends Controller {
 
     public function actionGetProductsList($categoryId) {
 
@@ -63,8 +66,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function getMenuList($parent = null, $MenuItems = [])
-    {
+    public function getMenuList($parent = null, $MenuItems = []) {
 
     }
 }
