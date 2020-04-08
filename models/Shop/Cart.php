@@ -132,5 +132,9 @@ class Cart extends Model {
         return $amount;
     }
 
+    public function clearCart(){
+        \Yii::$app->session->remove('cart');
+    }
+
 
 }
