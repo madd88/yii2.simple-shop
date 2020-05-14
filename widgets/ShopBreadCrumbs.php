@@ -1,20 +1,24 @@
 <?php
 
+/**
+ * Виджет хлебных крошек каталога товаров
+ *
+ * @package Shop
+ * @author Aleksei Nikolaev <madd.niko@gmail.com>
+ *
+ */
 
 namespace app\widgets;
-
 
 use app\models\Shop\Categories;
 use app\models\Shop\Products;
 use yii\bootstrap4\Breadcrumbs;
-use yii\helpers\Html;
 use yii\helpers\Url;
 
 class ShopBreadCrumbs extends Breadcrumbs {
 
     public function init() {
         parent::init();
-        $tree = [];
         $url = explode("/", Url::current());
         if (in_array($url[1], [Categories::CATEGORIES_PRODUCTS_URL, Categories::CATEGORIES_LIST_URL, Products::PRODUCTS_INFO_URL])) {
             $Category = (Products::PRODUCTS_INFO_URL === $url[1])
@@ -24,7 +28,7 @@ class ShopBreadCrumbs extends Breadcrumbs {
             foreach ($tree as $k => $Category) {
                 $this->links[] = [
                     'label' => $Category->name,
-                    'url' => ($k < count($tree)-1) ? '/' . Categories::CATEGORIES_LIST_URL . '/' . $Category->id : null
+                    'url' => ($k < count($tree) - 1) ? '/' . Categories::CATEGORIES_LIST_URL . '/' . $Category->id : null
                 ];
             }
             $this->homeLink = [
